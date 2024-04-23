@@ -55,7 +55,7 @@ router.post("/signup", async (req, res) => {
 
 // Sigin API
 
-router.get("/signin", async (req, res) => {
+router.post("/signin", async (req, res) => {
   const { success, error, data } = signinSchema.safeParse(req.body);
   if (!success) {
     return res.status(400).json({ message: error.message });
@@ -74,7 +74,7 @@ router.get("/signin", async (req, res) => {
   }
 
   const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1h" });
-  res.json({ message: "Signin successful", token });
+  res.json({ message: "Signin successful"});
 });
 
 // Logout API
