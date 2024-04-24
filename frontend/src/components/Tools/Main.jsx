@@ -34,7 +34,7 @@ const Main = () => {
   return (
     <>
       <Box
-        height={30}
+        height={50}
         width="full"
         display="flex"
         alignItems="center"
