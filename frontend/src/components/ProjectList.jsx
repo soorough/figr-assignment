@@ -8,9 +8,11 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ProjectList = () => {
   const [projects, setProjects] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -39,6 +41,11 @@ const ProjectList = () => {
     return () => {};
   }, []);
 
+  const handleOpenClick = (projectId) => {
+    // Navigate to the specific project's route
+    navigate(`/projects/${projectId}`);
+  };
+
   return (
     <>
       <div style={{ width: "100%", padding: "20px" }}>
@@ -66,6 +73,7 @@ const ProjectList = () => {
                   variant="contained"
                   color="primary"
                   style={{ marginLeft: "auto" }}
+                  onClick={() => handleOpenClick(project._id)}
                 >
                   Open
                 </Button>
