@@ -1,9 +1,7 @@
-import { jwtDecode } from "jwt-decode";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -14,45 +12,15 @@ import axios from "axios";
 import videoBG from "../assets/AbstractWaves.mp4";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ProjectList from "./ProjectList";
+import getLoggedInUserId from "./util/GetLoggedInID";
+import Copyright from "./util/Copyright";
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://github.com/soorough">
-        SOOROUGH
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-// Function to get logged-in user's ID
-function getLoggedInUserId() {
-  // Retrieve token from local storage (or wherever you stored it)
-  const token = localStorage.getItem("authToken");
 
-  if (token) {
-    // Decode the token to get the payload
-    const decodedToken = jwtDecode(token);
-
-    // Return the user ID from the token payload
-    return decodedToken.userId;
-  } else {
-    // Handle case when token is not found
-    console.warn("No token found");
-    return null;
-  }
-}
 
 export default function Projects() {
   const currentUserId = getLoggedInUserId();
@@ -62,10 +30,13 @@ export default function Projects() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3000/api/v1/project/create", {
-        name: projectName,
-        userId: currentUserId,
-      });
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/project/create",
+        {
+          name: projectName,
+          userId: currentUserId,
+        }
+      );
 
       const { name } = response.data;
 
@@ -131,7 +102,7 @@ export default function Projects() {
               <Typography component="h1" variant="h5">
                 Projects
               </Typography>
-              {/* Remove the inner form here */}
+
               <TextField
                 margin="normal"
                 required
@@ -151,6 +122,7 @@ export default function Projects() {
               >
                 Create a new project
               </Button>
+              <ProjectList />
               <Copyright sx={{ mt: 5 }} />
             </Box>
           </Grid>
@@ -160,36 +132,4 @@ export default function Projects() {
   );
 }
 
-// const ProjectList = () => {
-//   const [projects, setProjects] = useState([]);
 
-//   useEffect(() => {
-//     const fetchProjects = async () => {
-//       try {
-//         const response = await axios.get(
-//           "http://localhost:3000/api/v1/projects/"
-//         );
-//         const data = response.data;
-//         setProjects(data);
-//       } catch (error) {
-//         console.log(error);
-//       }
-//     };
-
-//     fetchProjects();
-
-//     return () => {};
-//   }, []);
-
-//   return (
-//     <>
-//       <>
-//         {projects.map((project, index) => (
-//           <div key={index}>
-//             <button>{project.name}</button>
-//           </div>
-//         ))}
-//       </>
-//     </>
-//   );
-// };

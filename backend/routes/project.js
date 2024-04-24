@@ -43,7 +43,7 @@ router.post("/create", async (req, res) => {
 
 
 // Retrieve projects for a user (for switching projects)
-router.get("/projects", authMiddleware, async (req, res) => {
+router.get("/getprojects", authMiddleware, async (req, res) => {
   try {
     // Retrieve projects for the logged-in user
     const projects = await Project.find({ user: req.userId });
