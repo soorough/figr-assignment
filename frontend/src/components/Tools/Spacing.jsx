@@ -172,6 +172,7 @@ const Spacing = () => {
       <Grid item xs={5} md={3}>
         <Box
           sx={{
+            py:"2",
             width: "150px",
             height: "150px",
             backgroundColor: "#ffffff",
@@ -182,10 +183,9 @@ const Spacing = () => {
             alignItems: "center",
             color: "#000",
             fontWeight: "bold",
-            fontSize:"1.8rem"
           }}
         >
-          Hire ME!
+          HEHE!
         </Box>
       </Grid>
     </Grid>

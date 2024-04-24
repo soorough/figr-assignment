@@ -4,8 +4,8 @@ import { atom } from "recoil";
 const radiusAtom = atom({
   key: "radiusAtom",
   default: [
-    { id: 1, isOpen: false, variableName: "Primary", radiusValue: 5 },
-    { id: 2, isOpen: false, variableName: "Secondary", radiusValue: 10 },
+    { id: 1, isOpen: false, variableName: "Radius 1", radiusValue: 5 },
+    { id: 2, isOpen: false, variableName: "Radius 2", radiusValue: 10 },
   ],
 });
 

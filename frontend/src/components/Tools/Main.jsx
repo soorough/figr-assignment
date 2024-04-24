@@ -1,4 +1,4 @@
-import { Box, Button, Divider, IconButton, Tab, Tabs } from "@mui/material";
+import { Box, Button, Divider, IconButton, Link, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import Colour from "./Colour";
 import Radius from "./Radius";
@@ -42,7 +42,9 @@ const Main = () => {
         p={2}
       >
         <IconButton edge="start">
-          <FigrIcon style={{ fontSize: '40px' }} />
+        <Link href="/">
+        <FigrIcon style={{ fontSize: '40px' }} />
+        </Link>
         </IconButton>
 
         <Button variant="outlined">Save Project</Button>
