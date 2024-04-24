@@ -4,6 +4,7 @@ import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import Projects from "./components/Projects";
 import Home from "./components/Home";
+import Main from "./components/Tools/Main";
 
 const App = () => {
   return (
@@ -15,6 +16,9 @@ const App = () => {
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/projects" element={<Projects />} />
+        </Routes>
+        <Routes>
+        <Route path="/main" element={<Main />} />
         </Routes>
       </BrowserRouter>
     </RecoilRoot>

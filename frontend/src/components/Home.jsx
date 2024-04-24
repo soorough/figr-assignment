@@ -13,7 +13,7 @@ const Home = () => {
     <div
       style={{
         width: "100%",
-        height: "100%",
+        height: "100vh",
       }}
     >
       <video
@@ -21,7 +21,7 @@ const Home = () => {
         autoPlay
         loop
         muted
-        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        style={{ width: "100%", height: "100vh", objectFit: "cover" }}
       />
       <div
         style={{
