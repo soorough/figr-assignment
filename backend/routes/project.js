@@ -17,36 +17,30 @@ const projectSchema = z.object({
   })).optional(),
 });
 
-// Create a project
-router.post("/projects", authMiddleware, async (req, res) => {
+router.post("/create", async (req, res) => {
   try {
-    // Validate the request body
-    const validationResult = projectSchema.safeParse(req.body);
-    if (!validationResult.success) {
-      return res.status(400).json({
-        message: "Invalid data",
-        errors: validationResult.error.issues,
-      });
-    }
-
-    const { name, colors, radius, spacing, components } = req.body;
-
+    const { name, userId } = req.body;
+    
     // Create a new project
     const newProject = new Project({
-      user: req.userId,
-      name,
-      colors,
-      radius,
-      spacing,
-      components,
+      user: userId,
+      name: name,
+      colors: [],
+      radius: [],
+      spacing: [],
+      components: [],
     });
 
+    // Save the new project to the database
     await newProject.save();
-    res.status(201).json({ message: "Project created successfully", project: newProject });
-  } catch (err) {
-    res.status(500).json({ message: "Server error", error: err.message });
+
+    // Send a response with the created project
+    res.status(201).json(newProject);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 });
+
 
 // Retrieve projects for a user (for switching projects)
 router.get("/projects", authMiddleware, async (req, res) => {

@@ -63,7 +63,7 @@ export default function SignUp() {
         console.error('Error during sign up:', error);
     }
 
-    navigate('/projects');
+    navigate('/sign-in');
 };
 
   return (

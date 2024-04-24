@@ -1,10 +1,10 @@
 import { Box, Button, Divider, IconButton, Link, Tab, Tabs } from "@mui/material";
 import { useState } from "react";
-import Colour from "./Colour";
-import Radius from "./Radius";
-import Spacing from "./Spacing";
+import Colour from "../HandleStyles/Colour";
+import Radius from "../HandleStyles/Radius";
+import Spacing from "../HandleStyles/Spacing";
 import Components from "./Components";
-import FigrIcon from "./FigrIcon";
+import FigrIcon from "../util/FigrIcon";
 
 const Main = () => {
   // State for managing the active tab

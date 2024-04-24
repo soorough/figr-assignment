@@ -74,7 +74,7 @@ router.post("/signin", async (req, res) => {
   }
 
   const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "1h" });
-  res.json({ message: "Signin successful"});
+  res.json({ message: "Signin successful", token });
 });
 
 // Logout API

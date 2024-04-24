@@ -22,7 +22,7 @@ function Copyright(props) {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://github.com/soorough">
-      SOOROUGH
+        SOOROUGH
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -41,33 +41,36 @@ export default function SignIn() {
     const formData = new FormData(event.currentTarget);
 
     const data = {
-        email: formData.get('email'),
-        password: formData.get('password')
+      email: formData.get("email"),
+      password: formData.get("password"),
     };
 
     try {
-        const response = await axios.post(
-            'http://localhost:3000/api/v1/user/signin',
-            data,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            }
-        );
+      const response = await axios.post(
+        "http://localhost:3000/api/v1/user/signin",
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-        console.log('Response data:', response.data);
-        
-        if (response.data.message === "Signin successful") {
-          navigate('/projects');
+      console.log("Response data:", response.data);
+
+      if (response.data.message === "Signin successful") {
+        const token = response.data.token; 
+        localStorage.setItem("authToken", token);
+
+        // Redirect the user to the projects page
+        navigate("/projects");
       } else {
-          console.error('Login failed:', response.data.message);
+        console.error("Login failed:", response.data.message);
       }
-     } catch (error) {
-        console.error('Error during sign up:', error);
+    } catch (error) {
+      console.error("Error during sign up:", error);
     }
-    
-};
+  };
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>

@@ -9,7 +9,6 @@ import {
 } from "@mui/material";
 import { useRecoilState } from "recoil";
 import componentVariantsAtom from "../../../recoil/components/Components.atom";
-
 import radiusAtom from "../../../recoil/Radius/Radius.atom";
 import colorsAtom from "../../../recoil/Colors/Colors.atom";
 import spacingAtom from "../../../recoil/Spacing/Spacing.atom";
@@ -19,9 +18,7 @@ const ButtonComponent = () => {
   const [colors] = useRecoilState(colorsAtom);
   const [radius] = useRecoilState(radiusAtom);
   const [spacing] = useRecoilState(spacingAtom);
-  const [componentVariants, setComponentVariants] = useRecoilState(
-    componentVariantsAtom
-  );
+  const [componentVariants, setComponentVariants] = useRecoilState(componentVariantsAtom);
   const [selectedVariant, setSelectedVariant] = useState(null);
 
   // Function to add a new button variant
@@ -37,11 +34,19 @@ const ButtonComponent = () => {
   const updateVariantStyle = (index, styleKey, value) => {
     setComponentVariants((prev) => {
       const updatedVariants = prev.button.map((variant, i) =>
-        i === index
-          ? { ...variant, styles: { ...variant.styles, [styleKey]: value } }
-          : variant
+        i === index ? { ...variant, styles: { ...variant.styles, [styleKey]: value } } : variant
       );
       return { ...prev, button: updatedVariants };
+    });
+    setSelectedVariant((prev) => {
+      // Return the updated selected variant
+      return {
+        ...prev,
+        styles: {
+          ...prev.styles,
+          [styleKey]: value,
+        },
+      };
     });
   };
 
@@ -53,6 +58,10 @@ const ButtonComponent = () => {
       );
       return { ...prev, button: updatedVariants };
     });
+    setSelectedVariant((prev) => ({
+      ...prev,
+      name: newName,
+    }));
   };
 
   // Function to delete a button variant
@@ -62,6 +71,10 @@ const ButtonComponent = () => {
       updatedVariants.splice(index, 1);
       return { ...prev, button: updatedVariants };
     });
+    // Reset the selected variant if the deleted variant was the selected one
+    if (index === componentVariants.button.indexOf(selectedVariant)) {
+      setSelectedVariant(null);
+    }
   };
 
   // Function to handle the selection of a variant
@@ -84,7 +97,9 @@ const ButtonComponent = () => {
               size="small"
               label="Variant Name"
               value={variant.name}
-              onChange={(e) => updateVariantName(index, e.target.value)}
+              onChange={(e) =>
+                updateVariantName(index, e.target.value)
+              }
             />
             <h4>Styles</h4>
 
@@ -228,14 +243,7 @@ const ButtonComponent = () => {
               </Grid>
 
               {/* Button preview */}
-              <Grid item xs={12}>
-                <Button
-                  style={variant.styles}
-                  onClick={() => handleSelectVariant(variant)}
-                >
-                  {variant.name}
-                </Button>
-              </Grid>
+              {/* Removed preview from here */}
             </Grid>
           </Box>
         ))}
@@ -247,6 +255,7 @@ const ButtonComponent = () => {
         {selectedVariant && (
           <Button
             style={selectedVariant.styles}
+            padding= {selectedVariant.styles.paddingY}
             onClick={() => handleSelectVariant(selectedVariant)}
           >
             {selectedVariant.name}

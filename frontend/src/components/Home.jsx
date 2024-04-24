@@ -39,7 +39,7 @@ const Home = () => {
           <h1 style={{ fontSize: "10rem", color: "white" }}>FIGR</h1>
         </div>
 
-        <Button variant="outlined" size="medium" onClick={handleClick}>
+        <Button sx={{ color: 'white', borderColor: 'white' }} variant="outlined" size="medium" onClick={handleClick}>
           GET STARTED!
         </Button>
       </div>
