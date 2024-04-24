@@ -1,20 +1,25 @@
-import { useState } from "react";
-import { Box, Grid, Stack, TextField, Button } from "@mui/material";
-import ListSubheader from "@mui/material/ListSubheader";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
+import { useRecoilState } from "recoil";
+import {
+  Box,
+  Grid,
+  Stack,
+  TextField,
+  Button,
+  ListSubheader,
+  List,
+  ListItemButton,
+  ListItemText,
+  Collapse,
+} from "@mui/material";
+
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import DeleteIcon from "@mui/icons-material/Delete";
+import spacingAtom from "../../../recoil/Spacing/Spacing.atom"; // Import your spacing Atom
 
 const Spacing = () => {
-  // State for list items
-  const [listItems, setListItems] = useState([
-    { id: 1, isOpen: false, variableName: "Spacing 1", pxValue: 16, remValue: 1 },
-    { id: 2, isOpen: false, variableName: "Spacing 2", pxValue: 24, remValue: 1.5 }
-  ]);
+  // Use Recoil state for list items
+  const [listItems, setListItems] = useRecoilState(spacingAtom);
 
   // Function to convert px to rem (assuming base font size of 16px)
   const pxToRem = (pxValue) => {
@@ -52,114 +57,138 @@ const Spacing = () => {
   };
 
   return (
-    <>
-      {/* Button to add a new list item */}
-      <Button variant="outlined" onClick={handleAdd}>
-        Add New
-      </Button>
+    <Grid container spacing={2} mt={2}>
+      {/* Input list on the left */}
+      <Grid item xs={6}>
+        {/* Button to add a new list item */}
+        <Button variant="outlined" onClick={handleAdd}>
+          Add New
+        </Button>
 
-      {/* List */}
-      <List
-        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-        component="nav"
-        aria-labelledby="nested-list-subheader"
-        subheader={
-          <ListSubheader
-            sx={{ fontWeight: "bold", fontSize: "20px" }}
-            component="div"
-            id="nested-list-subheader"
-          >
-            Spacing
-          </ListSubheader>
-        }
-      >
-        {/* Iterate over list items */}
-        {listItems.map((item) => (
-          <div key={item.id}>
-            <ListItemButton onClick={() => handleClick(item.id)}>
-              <ListItemText primary={item.variableName} />
-              {item.isOpen ? <ExpandLess /> : <ExpandMore />}
-              {/* Delete button */}
-              <Button
-                variant="outlined"
-                color="error"
-                size="small"
-                onClick={() => handleDelete(item.id)}
-              >
-                <DeleteIcon fontSize="small" />
-              </Button>
-            </ListItemButton>
-            <Collapse in={item.isOpen} timeout="auto" unmountOnExit>
-              <List component="div" disablePadding>
-                <Box
-                  width="full"
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="space-between"
-                  p={2}
+        {/* List */}
+        <List
+          sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+          component="nav"
+          aria-labelledby="nested-list-subheader"
+          subheader={
+            <ListSubheader
+              sx={{ fontWeight: "bold", fontSize: "20px" }}
+              component="div"
+              id="nested-list-subheader"
+            >
+              Spacing
+            </ListSubheader>
+          }
+        >
+          {/* Iterate over list items */}
+          {listItems.map((item) => (
+            <div key={item.id}>
+              <ListItemButton onClick={() => handleClick(item.id)}>
+                <ListItemText primary={item.variableName} />
+                {item.isOpen ? <ExpandLess /> : <ExpandMore />}
+                {/* Delete button */}
+                <Button
+                  variant="outlined"
+                  color="error"
+                  size="small"
+                  onClick={() => handleDelete(item.id)}
                 >
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} md={12}>
-                      <Stack spacing={2}>
-                        {/* Variable name text field */}
-                        <TextField
-                          id={`variable-name-${item.id}`}
-                          label="Variable Name"
-                          defaultValue={item.variableName}
-                          onChange={(e) => {
-                            const newValue = e.target.value;
-                            // Update the variable name in the list item
-                            setListItems((prevItems) =>
-                              prevItems.map((listItem) =>
-                                listItem.id === item.id
-                                  ? { ...listItem, variableName: newValue }
-                                  : listItem
-                              )
-                            );
-                          }}
-                        />
+                  <DeleteIcon fontSize="small" />
+                </Button>
+              </ListItemButton>
+              <Collapse in={item.isOpen} timeout="auto" unmountOnExit>
+                <List component="div" disablePadding>
+                  <Box
+                    width="full"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    p={2}
+                  >
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} md={12}>
+                        <Stack spacing={2}>
+                          {/* Variable name text field */}
+                          <TextField
+                            id={`variable-name-${item.id}`}
+                            label="Variable Name"
+                            defaultValue={item.variableName}
+                            onChange={(e) => {
+                              const newValue = e.target.value;
+                              // Update the variable name in the list item
+                              setListItems((prevItems) =>
+                                prevItems.map((listItem) =>
+                                  listItem.id === item.id
+                                    ? { ...listItem, variableName: newValue }
+                                    : listItem
+                                )
+                              );
+                            }}
+                          />
 
-                        {/* Pixel value text field */}
-                        <TextField
-                          id={`px-value-${item.id}`}
-                          label="Enter px Value"
-                          type="number"
-                          defaultValue={item.pxValue}
-                          onChange={(e) => {
-                            const newPxValue = parseFloat(e.target.value);
-                            // Calculate the rem value and update the list item
-                            const newRemValue = pxToRem(newPxValue);
-                            setListItems((prevItems) =>
-                              prevItems.map((listItem) =>
-                                listItem.id === item.id
-                                  ? {
-                                      ...listItem,
-                                      pxValue: newPxValue,
-                                      remValue: newRemValue
-                                    }
-                                  : listItem
-                              )
-                            );
-                          }}
-                        />
+                          {/* Pixel value text field */}
+                          <TextField
+                            id={`px-value-${item.id}`}
+                            label="Enter px Value"
+                            type="number"
+                            defaultValue={item.pxValue}
+                            onChange={(e) => {
+                              const newPxValue = parseFloat(e.target.value);
+                              // Calculate the rem value and update the list item
+                              const newRemValue = pxToRem(newPxValue);
+                              setListItems((prevItems) =>
+                                prevItems.map((listItem) =>
+                                  listItem.id === item.id
+                                    ? {
+                                        ...listItem,
+                                        pxValue: newPxValue,
+                                        remValue: newRemValue
+                                      }
+                                    : listItem
+                                )
+                              );
+                            }}
+                          />
 
-                        {/* Disabled text field to display the rem value */}
-                        <TextField
-                          id={`rem-value-${item.id}`}
-                          label="rem"
-                          value={item.remValue.toFixed(2)}
-                          disabled
-                        />
-                      </Stack>
+                          {/* Disabled text field to display the rem value */}
+                          <TextField
+                            id={`rem-value-${item.id}`}
+                            label="rem"
+                            value={item.remValue.toFixed(2)}
+                            disabled
+                          />
+                        </Stack>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </Box>
-              </List>
-            </Collapse>
-          </div>
-        ))}
-      </List>
-    </>
+                  </Box>
+                </List>
+              </Collapse>
+            </div>
+          ))}
+        </List>
+      </Grid>
+
+      {/* Prototype of text in a box on the right */}
+      <Grid item xs={5} md={3}>
+        <Box
+          sx={{
+            width: "150px",
+            height: "150px",
+            backgroundColor: "#ffffff",
+            border: "1px solid #ccc",
+            padding: listItems.find((item) => item.isOpen)?.pxValue || 0, // Apply padding based on selected list item's pxValue
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            color: "#000",
+            fontWeight: "bold",
+            fontSize:"1.8rem"
+          }}
+        >
+          Hire ME!
+        </Box>
+      </Grid>
+    </Grid>
   );
 };
 
