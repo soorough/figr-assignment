@@ -1,1 +1,1 @@
-export const baseUrl = "https://figr-assignment-soorough.onrender.com";
+export const baseUrl = "http://localhost:3000";
