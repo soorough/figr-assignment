@@ -28,7 +28,6 @@ const Main = () => {
   const [value, setValue] = useState(0);
   const navigate = useNavigate();
   const { projectId } = useParams();  // Retrieving projectId from the URL
-    console.log(projectId);
 
   // Use Recoil to get current state values
   const colors = useRecoilValue(colorsAtom);
@@ -74,7 +73,7 @@ const Main = () => {
     try {
       const token = localStorage.getItem("authToken");
       // Use PUT request to update project data
-      await axios.put(`${baseUrl}/api/v1/project/${projectId}`, data, { 
+      await axios.post(`${baseUrl}/api/v1/project/${projectId}`, data, { 
         headers: {
           Authorization: `Bearer ${token}`,
         },

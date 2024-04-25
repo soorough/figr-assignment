@@ -83,7 +83,7 @@ router.get("/getprojects", authMiddleware, async (req, res) => {
 });
 
 // Update an existing project (save changes)
-router.put("/:projectId", authMiddleware, async (req, res) => {
+router.post("/:projectId", authMiddleware, async (req, res) => {
   console.log('Project ID:', req.params.projectId);
     console.log('Updated Data:', req.body);
     console.log('User ID:', req.userId);
