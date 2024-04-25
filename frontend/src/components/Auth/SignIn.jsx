@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import {baseUrl} from "../util/Url.config"
 
 function Copyright(props) {
   return (
@@ -47,7 +48,7 @@ export default function SignIn() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/user/signin",
+        `${baseUrl}/api/v1/user/signin`,
         data,
         {
           headers: {

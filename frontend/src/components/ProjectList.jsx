@@ -7,11 +7,14 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { projectsAtom } from "../../recoil/Projects/Projects.atom";
+import { useRecoilState } from "recoil";
+import {baseUrl} from "./util/Url.config"
 
 const ProjectList = () => {
-  const [projects, setProjects] = useState([]);
+  const [projects, setProjects] = useRecoilState(projectsAtom);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,7 +22,7 @@ const ProjectList = () => {
       try {
         const token = localStorage.getItem("authToken");
         const response = await axios.get(
-          "http://localhost:3000/api/v1/project/getprojects",
+          `${baseUrl}/api/v1/project/getprojects`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -39,7 +42,7 @@ const ProjectList = () => {
     fetchProjects();
 
     return () => {};
-  }, []);
+  }, [setProjects]);
 
   const handleOpenClick = (projectId) => {
     // Navigate to the specific project's route

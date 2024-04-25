@@ -1,1 +1,1 @@
-module.exports = { JWT_SECRET: "figr" };
+module.exports = { JWT_SECRET: process.env.JWT_SECRET };

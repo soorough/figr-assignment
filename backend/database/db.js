@@ -17,49 +17,54 @@ db.on("error", (err) => {
 
 // Define Color schema
 const colorSchema = new Schema({
-  label: { type: String, required: true },
-  value: { type: String, required: true }, // Can be hex, hsl, or text
+  variableName: { type: String, required: true },
+  hexCode: { type: String, required: true },
 });
 
 // Define Radius schema
 const radiusSchema = new Schema({
-  label: { type: String, required: true },
-  value: { type: String, required: true }, // Example: '10px'
+  variableName: { type: String, required: true },
+  radiusValue: { type: Number, required: true },
 });
 
 // Define Spacing schema
 const spacingSchema = new Schema({
-  label: { type: String, required: true },
-  value: { type: String, required: true }, // Example: '6px'
+  variableName: { type: String, required: true },
+  pxValue: { type: Number, required: true },
+  remValue: { type: Number, required: true },
+});
+
+// Define Styles schema for variants
+const stylesSchema = new Schema({
+  backgroundColor: { type: String, default: null },
+  textColor: { type: String, default: null },
+  borderColor: { type: String, default: null },
+  borderRadius: { type: Number, default: null },
+  paddingX: { type: Number, default: null },
+  paddingY: { type: Number, default: null },
 });
 
 // Define Variant schema
 const variantSchema = new Schema({
-  name: { type: String, required: true }, // Name of the variant (e.g. 'primary', 'secondary')
-  styles: {
-    backgroundColor: { type: String }, // CSS background color
-    textColor: { type: String }, // CSS text color
-    borderColor: { type: String }, // CSS border color
-    borderRadius: { type: String }, // CSS border radius
-    paddingX: { type: String }, // CSS padding on the X axis
-    paddingY: { type: String }, // CSS padding on the Y axis
-  },
+  name: { type: String, required: true },
+  styles: { type: stylesSchema, required: true },
 });
 
-// Define Component schema
-const componentSchema = new Schema({
-  type: { type: String, required: true }, // E.g. 'Button', 'Input', 'Select'
-  variants: [variantSchema], // List of variants for the component
+// Define Components schema
+const componentsSchema = new Schema({
+  button: [variantSchema],
+  input: [variantSchema],
+  select: [variantSchema],
 });
 
 // Define Project schema
 const projectSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "User", required: true },
   name: { type: String, required: true },
-  colors: [colorSchema], // List of color objects
-  radius: [radiusSchema], // List of radius objects
-  spacing: [spacingSchema], // List of spacing objects
-  components: [componentSchema], // List of components with variants
+  colors: [colorSchema],
+  radius: [radiusSchema],
+  spacing: [spacingSchema],
+  components: componentsSchema,
 });
 
 // Define User schema

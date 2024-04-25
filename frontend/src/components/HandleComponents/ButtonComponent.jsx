@@ -18,7 +18,9 @@ const ButtonComponent = () => {
   const [colors] = useRecoilState(colorsAtom);
   const [radius] = useRecoilState(radiusAtom);
   const [spacing] = useRecoilState(spacingAtom);
-  const [componentVariants, setComponentVariants] = useRecoilState(componentVariantsAtom);
+  const [componentVariants, setComponentVariants] = useRecoilState(
+    componentVariantsAtom
+  );
   const [selectedVariant, setSelectedVariant] = useState(null);
 
   // Function to add a new button variant
@@ -34,7 +36,9 @@ const ButtonComponent = () => {
   const updateVariantStyle = (index, styleKey, value) => {
     setComponentVariants((prev) => {
       const updatedVariants = prev.button.map((variant, i) =>
-        i === index ? { ...variant, styles: { ...variant.styles, [styleKey]: value } } : variant
+        i === index
+          ? { ...variant, styles: { ...variant.styles, [styleKey]: value } }
+          : variant
       );
       return { ...prev, button: updatedVariants };
     });
@@ -97,9 +101,7 @@ const ButtonComponent = () => {
               size="small"
               label="Variant Name"
               value={variant.name}
-              onChange={(e) =>
-                updateVariantName(index, e.target.value)
-              }
+              onChange={(e) => updateVariantName(index, e.target.value)}
             />
             <h4>Styles</h4>
 
@@ -254,11 +256,15 @@ const ButtonComponent = () => {
         <ListSubheader sx={{ fontSize: "15px" }}>Preview</ListSubheader>
         {selectedVariant && (
           <Button
-            style={selectedVariant.styles}
-            padding= {selectedVariant.styles.paddingY}
+            style={selectedVariant.styles || {}}
+            padding={
+              selectedVariant.styles
+                ? selectedVariant.styles.paddingY
+                : undefined
+            }
             onClick={() => handleSelectVariant(selectedVariant)}
           >
-            {selectedVariant.name}
+            {selectedVariant.name || "Button"}
           </Button>
         )}
       </Grid>

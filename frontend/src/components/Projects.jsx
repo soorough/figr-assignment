@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import ProjectList from "./ProjectList";
 import getLoggedInUserId from "./util/GetLoggedInID";
 import Copyright from "./util/Copyright";
-
+import {baseUrl} from "./util/Url.config"
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
@@ -31,7 +31,7 @@ export default function Projects() {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/v1/project/create",
+        `${baseUrl}/api/v1/project/create`,
         {
           name: projectName,
           userId: currentUserId,

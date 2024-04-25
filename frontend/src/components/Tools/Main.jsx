@@ -14,32 +14,78 @@ import Spacing from "../HandleStyles/Spacing";
 import Components from "./Components";
 import FigrIcon from "../util/FigrIcon";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { useRecoilValue } from "recoil";
+import colorsAtom from "../../../recoil/Colors/Colors.atom";
+import radiusAtom from "../../../recoil/Radius/Radius.atom";
+import spacingAtom from "../../../recoil/Spacing/Spacing.atom";
+import componentVariantsAtom from "../../../recoil/components/Components.atom";
+import { transformDataForServer } from "../util/TransformData";
+import {baseUrl} from "../util/Url.config"
 
 const Main = () => {
-  // State for managing the active tab
   const [value, setValue] = useState(0);
+  const navigate = useNavigate();
+  const { projectId } = useParams();  // Retrieving projectId from the URL
 
-  // Event handler for tab change
+
+  // Use Recoil to get current state values
+  const colors = useRecoilValue(colorsAtom);
+  const radius = useRecoilValue(radiusAtom);
+  const spacing = useRecoilValue(spacingAtom);
+  const component = useRecoilValue(componentVariantsAtom);
+
+  // Define the recoilData
+  const recoilData = {
+    colors,
+    radius,
+    spacing,
+    component,
+  };
+
+  const transformedData = transformDataForServer(recoilData);
+
+  // Handle tab changes
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const navigate = useNavigate();
-
+  // Handle back click
   const handleBackClick = () => {
     navigate(-1);
   };
-  const handleLogoutClick = () => {
 
-    localStorage.removeItem('authToken');
-  
-    localStorage.removeItem('userId');
-    
-    navigate('/sign-in'); 
+  // Handle logout click
+  const handleLogoutClick = () => {
+    // Clear local storage and redirect to sign-in
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userId");
+    navigate("/sign-in");
   };
 
-  // Conditionally render components based on the active tab value
+  // Handle saving data to backend
+  const handleSaveClick = () => {
+    saveDataToBackend(transformedData);
+  };
+
+  // Function to save data to backend
+  const saveDataToBackend = async (data) => {
+    try {
+      const token = localStorage.getItem("authToken");
+      // Use PUT request to update project data
+      await axios.put(`${baseUrl}/api/v1/project/${projectId}`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("Data saved successfully");
+    } catch (error) {
+      console.error("Error saving data to the backend:", error);
+    }
+  };
+
+  // Render components based on the active tab value
   const renderComponent = () => {
     switch (value) {
       case 0:
@@ -57,14 +103,7 @@ const Main = () => {
 
   return (
     <>
-      <Box
-        height={50}
-        width="full"
-        display="flex"
-        alignItems="center"
-        justifyContent="space-between"
-        p={2}
-      >
+      <Box height={50} width="full" display="flex" alignItems="center" justifyContent="space-between" p={2}>
         <Box>
           <IconButton onClick={handleBackClick} edge="start">
             <ArrowBackIosIcon />
@@ -77,7 +116,7 @@ const Main = () => {
         </Box>
 
         <Box>
-          <Button sx={{ marginRight: "5px" }} variant="outlined">
+          <Button onClick={handleSaveClick} sx={{ marginRight: "5px" }} variant="outlined">
             Save Project
           </Button>
           <Button onClick={handleLogoutClick} variant="outlined">

@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import {baseUrl} from "../util/Url.config"
 
 import axios from "axios";
 
@@ -49,7 +50,7 @@ export default function SignUp() {
 
     try {
         const response = await axios.post(
-            'http://localhost:3000/api/v1/user/signup',
+          `${baseUrl}/api/v1/user/signup`,
             data,
             {
                 headers: {
