@@ -8,7 +8,7 @@ PORT = process.env. PORT || 3000;
 
 app.use(
   cors({
-    origin: ['http://localhost:3000','https://figr-assignment.vercel.app/'],
+    origin: ['http://localhost:3000','https://figr-assignment.vercel.app'],
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
