@@ -7,7 +7,9 @@ const app = express();
 PORT = process.env. PORT || 3000;
 
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://figrassignment-3dnlk6tqe-sooroughs-projects.vercel.app/',
+}));
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
