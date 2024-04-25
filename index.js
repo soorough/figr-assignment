@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
 const rootRouter = require("./routes/index");
+import path from 'path';
 
 const app = express();
 PORT = process.env. PORT || 3000;
@@ -15,16 +16,17 @@ PORT = process.env. PORT || 3000;
 
 const __dirname = path.resolve();
 
-app.use(express.static(path.join(__dirname, '/frontend/dist')))
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
-})
 
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
 
 app.use("/api/v1", rootRouter);
+
+app.use(express.static(path.join(__dirname, '/frontend/dist')))
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+})
 
 app.listen(PORT || 3000, function (err) {
   if (err) console.log(err);
