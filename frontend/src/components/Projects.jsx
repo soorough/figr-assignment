@@ -21,7 +21,6 @@ import {baseUrl} from "./util/Url.config"
 const defaultTheme = createTheme();
 
 
-
 export default function Projects() {
   const currentUserId = getLoggedInUserId();
   const [projectName, setProjectName] = useState("");
@@ -38,9 +37,8 @@ export default function Projects() {
         }
       );
 
-      const { name } = response.data;
+      navigate(`/project/${response.data._id}`);
 
-      navigate(`/projects/${name}`);
     } catch (error) {
       console.error("Error creating project:", error);
     }

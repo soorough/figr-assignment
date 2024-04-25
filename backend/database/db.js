@@ -44,6 +44,7 @@ const stylesSchema = new Schema({
   paddingY: { type: Number, default: null },
 });
 
+
 // Define Variant schema
 const variantSchema = new Schema({
   name: { type: String, required: true },
@@ -64,7 +65,7 @@ const projectSchema = new Schema({
   colors: [colorSchema],
   radius: [radiusSchema],
   spacing: [spacingSchema],
-  components: componentsSchema,
+  component: {componentsSchema},
 });
 
 // Define User schema

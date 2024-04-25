@@ -46,7 +46,7 @@ const ProjectList = () => {
 
   const handleOpenClick = (projectId) => {
     // Navigate to the specific project's route
-    navigate(`/projects/${projectId}`);
+    navigate(`/project/${projectId}`);
   };
 
   return (
